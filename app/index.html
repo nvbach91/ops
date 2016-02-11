@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+ @copyright: EnterpriseApps 2016
+-->
+<html>
+    <head>
+        <title>OPS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="img/favicon.png">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <!--link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'-->
+        <!--link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'-->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,vietnamese' rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="app">
+            <nav>
+                <div id="logo"><div></div></div>
+                <div id="brand">EnterpriseApps</div>
+                <div id="menu-top">
+                    <div id="profile">Profile</div>
+                    <div id="sign-out">Sign out</div>
+                </div>
+            </nav>
+            <div id="menu-left">
+                <div id="menu-header"><div></div></div>
+                <div id="menu-body">
+                    <button class="menu-item"></button>
+                    <button class="menu-item"></button>
+                    <button class="menu-item"></button>
+                </div>
+            </div>
+            <div id="main">
+                <div id="col-1">
+                    <div id="live-search">
+                        <input id="search" placeholder="Search" autocomplete="off"/>
+                        <ul id="dropdown"></ul>
+                    </div>
+                    <input id="price-input" placeholder="0.00" maxlength="7"/>
+                    <div id="sale-groups">
+                        <button class="sg food">Food</button>
+                        <button class="sg vegetable">Vegetable</button>
+                        <button class="sg drinks">Drinks</button>
+                        <button class="sg alcohol">Alcohol</button>
+                        <button class="sg tobacco">Tobacco</button>
+                        <button class="sg press">Press</button>
+                        <button class="sg drugs">Drugs</button>
+                        <button class="sg uncategorized">Uncategorized</button>
+                        <!--button class="sg add"></button-->
+                    </div>
+                    <div id="quick-sales">
+                        <div class="qs-item">
+                            <button>Brown Bread</button>
+                            <div class="qs-id">qs1</div>
+                            <div class="qs-price">19.00</div>
+                            <div class="qs-group">Food</div>
+                            <div class="qs-tax">15</div>
+                            <div class="qs-tags">Baked, Whole</div>
+                            <div class="qs-desc">Black round bread baked in Czech</div>
+                        </div>
+                        <div class="qs-item">
+                            <button>Roll Bread</button>
+                            <div class="qs-id">qs2</div>
+                            <div class="qs-price">3.00</div>
+                            <div class="qs-group">Food</div>
+                            <div class="qs-tax">15</div>
+                            <div class="qs-tags">Baked, Wheat</div>
+                            <div class="qs-desc">A regular roll bread made in Czech</div>
+                        </div>
+                        <div class="qs-item">
+                            <button>RoundBreadRoundBreadRoundBreadRoundBreadRoundBreadRoundBread</button>
+                            <div class="qs-id">qs3</div>
+                            <div class="qs-price">3.00</div>
+                            <div class="qs-group">Food</div>
+                            <div class="qs-tax">15</div>
+                            <div class="qs-tags">Baked, Wheat</div>
+                            <div class="qs-desc">A common small white bread</div>
+                        </div>
+                        <div class="qs-item">
+                            <button>Croissant</button>
+                            <div class="qs-id">qs4</div>
+                            <div class="qs-price">12.00</div>
+                            <div class="qs-group">Food</div>
+                            <div class="qs-tax">15</div>
+                            <div class="qs-tags">Baked, Wheat, Sweet</div>
+                            <div class="qs-desc">Baked butter flavored croissant</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="col-2">
+                    <div id="checkout-header">
+                        <div id="checkout-label">CHECKOUT (0 items)</div>
+                        <div id="checkout-total">Total: 0 Kč</div>
+                    </div>
+                    <div id="checkout-btns">
+                        <button id="park-sale">Park Sale</button>
+                        <button id="discard-sale">Discard Sale</button>
+                    </div>
+                    <ul id="sale-list">
+                        <li id="si-placeholder">
+                            <div>Registered items will be displayed here</div>
+                        </li>
+                    </ul>
+                    <button id="pay">
+                        <span>Pay</span>
+                        <span id="pay-amount">0 Kč</span>
+                    </button>
+                </div>
+            </div>
+            <div id="registry-session">1</div>
+        </div>
+        <div id="kc">0</div>
+        <audio id="beep">
+            <source src="sound/beep2.mp3">
+        </audio>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <!--script src="js/jquery.js?1822"></script-->
+        <script src="js/main.js"></script>
+    </body>
+</html>
