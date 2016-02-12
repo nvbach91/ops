@@ -7,10 +7,10 @@ var windowWidth = window.innerWidth;
 var animationTime = windowWidth >= 768 ? 100 : 0;
 
 /**
- * Performs a binary search on the host array. This method can either be
- * injected into Array.prototype or called with a specified scope like this:
- * binaryIndexOf.call(someArray, searchElement);
- *
+ * Performs a binary search on the host array. 
+ * Implement a valueOf function to your class which returns the value to be compared
+ * i.e. Item.prototype.valueOf
+ * The Host array must be sorted with Array.prototype.sort(function(lhs, rhs){});
  * @param {*} searchElement The item to search for within the array.
  * @return {Number} The index of the element which defaults to -1 when not found.
  */
@@ -65,15 +65,19 @@ var isFloat = function (n) {
     return n === Number(n) && n % 1 !== 0;
 }
 ;
+
 var beep = function () {
     var b = document.getElementById("beep");
     b.pause();
     b.currentTime = 0;
     b.play();
-};
+}
+;
+
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
+
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,
             c = isNaN(c = Math.abs(c)) ? 2 : c,
@@ -160,7 +164,6 @@ var checkPriceInput = function (e, u) {
 
 var checkNumericInput = function (e, t) {
     if (e.keyCode === 13) { // allow enter and blur upon press
-        //var s = e.data;
         t.blur();
         return true;
     }
@@ -361,7 +364,7 @@ $(document).ready(function () {
                 var p = $(this).val();
                 if (!/^\-?\d+$/g.test(p) || p === "-") {
                     $(this).val("");
-                    return;
+                    return false;
                 }
                 var sign = "";
                 if (p.charAt(0) === "-") {
@@ -371,7 +374,7 @@ $(document).ready(function () {
                 var correctValue = correctPrice(p);
                 if (!correctValue) {
                     jPriceInput.val("");
-                    return;
+                    return false;
                 }
                 jPriceInput.val(sign + correctValue);
             })
@@ -396,7 +399,7 @@ $(document).ready(function () {
                     && jRegistrySession.text() === "1") {
                 //beep();
                 jPriceInput.val("");
-                return;
+                return false;
             }
         }
         var price = jPriceInput.val();

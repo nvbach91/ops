@@ -48,7 +48,6 @@ html, body, #app, #main, #curtain {
     background-image: url("../img/logo.png");
     background-repeat: no-repeat;
     background-size: contain;
-    transition: transform .2s ease;
     width: 40px;
     height: 40px;
 }
@@ -79,7 +78,6 @@ nav {
     text-align: center;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    transition: border-bottom .2s ease;
 }
 #menu-top > div:hover {
     border-bottom: 3px solid #B53737;
@@ -93,7 +91,6 @@ nav {
     width: 80px;
     left: -85px;
     color: #E8E8E8;
-    transition: left .2s ease;
     background-color: rgb(34, 36, 38);
     box-shadow: 1px 0px 5px 1px rgba(0,0,0,0.7);
 }
@@ -119,7 +116,6 @@ nav {
     width: 50px;
     margin: 0 auto;
     cursor: pointer;
-    transition: transform .2s ease;
 }
 #menu-header > div:hover {
     transform: rotate(-90deg);
@@ -162,15 +158,18 @@ input {
 #dropdown.visible {
     display: flex;
 }
-.dd-item {
+#dropdown .dd-item {
     cursor: pointer;
     display: flex;
     padding: 5px 5px 5px 20px;
 }
-.dd-name {
+#dropdown .dd-item:hover {
+    background-color: #CAFFC3;
+}
+#dropdown .dd-name {
     flex-grow: 1;
 }
-.dd-price {
+#dropdown .dd-price {
     
 }
 #price-input {
@@ -220,7 +219,6 @@ button {
     padding: 0;
     border-radius: 3px;
     background-color: #44B773;
-    transition: background-color .5s ease;
 }
 .sg, .qs-item button {
     font-size: 14px;
@@ -238,7 +236,6 @@ button#park-sale, button#discard-sale {
     text-align: right;
     padding: 0 10px;
     border: 1px solid transparent;
-    transition: border .2s ease, background-color .2s ease;
     text-indent: 30px;
     background-size: 30px 30px;
     background-position: 6px 4px;
@@ -352,7 +349,6 @@ button#park-sale, button#discard-sale {
     width: 38px;
     height: 38px;
     border: 1px solid transparent;
-    transition: border .2s ease, transform .2s ease;
 }
 .d-detail:hover {     
     border: 1px solid #aaa;
@@ -399,7 +395,6 @@ button.si-remove {
     color: #353535;
     box-shadow: none;
     border: 1px solid transparent;
-    transition: border .2s ease;
 }
 button.si-remove:before {
     content: "\00d7";
@@ -493,7 +488,6 @@ button.db-close, button.pb-close {
     height: 40px;
     padding: 0;
     color: #353535;
-    transition: color .2s ease, transform .2s ease;
 }
 button.db-close:hover, button.pb-close:hover {
     transform: rotate(180deg);
@@ -947,18 +941,40 @@ div.ri-x {
     #checkout-header {
         font-size: 22px;
     }
-    button#park-sale, button#discard-sale {
-        /*font-size: 18px;
-        margin: 10px;
-        padding: 5px 15px;
-        background-position: 10px 8px;*/
-    }
     #sale-groups button, .qs-item {
         width: 20%;
     }
 }
 
-
+@media screen and (min-width: 800px) and (min-height: 600px) {
+    #logo > div {
+        transition: transform .2s ease;
+    }
+    #menu-top > div { 
+        transition: border-bottom .2s ease;
+    }
+    #menu-left {
+        transition: left .2s ease;
+    }
+    #menu-header > div {
+        transition: transform .2s ease;
+    }
+    button {
+        transition: background-color .2s ease;
+    }
+    button#park-sale, button#discard-sale {
+        transition: border .2s ease, background-color .2s ease;
+    }
+    .d-detail {
+        transition: border .2s ease, transform .2s ease;
+    }
+    button.si-remove {
+        transition: border .2s ease;
+    }
+    button.db-close, button.pb-close {
+        transition: color .2s ease, transform .2s ease;
+    }
+}
 
 .food {
     background-color: #BB3943;

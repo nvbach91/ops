@@ -8,7 +8,7 @@
   },
   "author": "nvbach91",
   "contributors": [],
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.11.1",
     "del": "^2.2.0",
