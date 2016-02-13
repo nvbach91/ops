@@ -3,13 +3,18 @@ var gulp = require('gulp'),
 	reload = browserSync.reload,
 	uglify = require('gulp-uglify'),
 	plumber = require('gulp-plumber'),
-	rename = require('gulp-rename');
+	rename = require('gulp-rename'),
+	concat = require('gulp-concat');
 
 gulp.task('scripts', function(){
-	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
-	.pipe(plumber())
-	.pipe(rename({suffix:'.min'}))
-	.pipe(uglify())
+	gulp.src([
+		'app/js/components/functions.js',
+		'app/js/components/Item.js', 
+		'app/js/components/main.js', 
+	]).pipe(plumber())
+	.pipe(concat('build.js'))
+	//.pipe(rename({suffix:'.min'}))
+	//.pipe(uglify())
 	.pipe(gulp.dest('app/js'))
 	.pipe(reload({stream: true}));
 });

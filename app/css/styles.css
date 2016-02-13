@@ -143,6 +143,10 @@ input {
     padding: 5px;
     width: 100%;
 }
+#search.not-found {
+    border: 1px solid red;
+    box-shadow: 0 0 3px red
+}
 #dropdown {
     position: absolute;
     font-size: 15px;
