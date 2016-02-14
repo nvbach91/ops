@@ -461,6 +461,8 @@ $(document).ready(function () {
             var desc = t.parent().find(".qs-desc").text();
             addItemToCheckout(itemId, name, price, group, tax, tags, desc);
         }
+        
+        jRegistrySession.text("1");
     });
 
     // bind control panel buttons
