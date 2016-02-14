@@ -337,8 +337,8 @@ button#park-sale, button#discard-sale {
     margin: 0 5px;
 }
 .invalid {
-    border: 1px solid red;
-    box-shadow: 0 0 3px red;
+    /*border: 1px solid red;*/
+    box-shadow: 0 0 0 3px red;
 }
 .open-detail {
     text-align: center;
@@ -373,7 +373,7 @@ button#park-sale, button#discard-sale {
     border-bottom: 1px solid #E0E0E0;
     font-size: 12px;
 }
-.si-id {
+.si-id, .si-ean {
     display: none;
 }
 .si-name {
@@ -610,11 +610,11 @@ div.ri-x {
     background-size: 0.55rem .55rem,.55rem .55rem;
     background-repeat: repeat-x;
 }
-.payment {
+#payment {
     display: flex;
     flex-direction: column;
 }
-.payment > div {}
+#payment > div {}
 #cash-input-container {
     display: flex;
     justify-content: center;
@@ -622,6 +622,10 @@ div.ri-x {
 }
 .cash-pay-label {
     font-size: 16px;
+    line-height: 40px;
+}
+#cash-pay-topay {    
+    font-size: 40px;
     line-height: 40px;
 }
 #cash-input {
@@ -633,11 +637,17 @@ div.ri-x {
     box-shadow: 0 0 1px 0 rgba(0,0,0,0.5);
     margin-right: 5px;
 }
+#cash-input.invalid {
+    box-shadow: 0 0 5px 1px red;
+}
 .cash-confirm {
     flex-grow: 1;
     width: 100px;
     padding: 10px;
     font-size: 20px;
+}
+.cash-confirm.disabled {
+    background: #656565;
 }
 .cash-quick-label {
     line-height: 40px;
@@ -655,7 +665,7 @@ div.ri-x {
     font-size: 16px;
     border: 2px solid #F8F8F8;
 }
-.cash-change {
+#cash-change {
     line-height: 40px;
     font-size: 24px;
 }
@@ -776,7 +786,7 @@ div.ri-x {
         display: flex;
         flex-direction: row;
     }
-    .payment {
+    #payment {
         order: 2;
     }
     #cash-input {
@@ -1012,7 +1022,7 @@ div.ri-x {
     html, body {
         font-family: "Open Sans", monospace;
     }
-    nav, #menu-left, #main, .pb-header, .payment {
+    nav, #menu-left, #main, .pb-header, #payment {
         display: none;
     }
     #curtain {

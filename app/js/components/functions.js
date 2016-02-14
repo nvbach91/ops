@@ -3,6 +3,12 @@
  *   Author     : Nguyen Viet Bach
  */
 
+
+var getAnimationTime = function () {
+    return window.innerWidth > 799 ? 100 : 0;
+}
+;
+
 /**
  * Performs a binary search on the host array. 
  * Implement a valueOf function to your class which returns the value to be compared
@@ -41,6 +47,8 @@ var endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+String.prototype.endsWith = endsWith;
+
 var formatMoney = function (c, d, t) {
     var n = this,
             c = isNaN(c = Math.abs(c)) ? 2 : c,
@@ -52,6 +60,8 @@ var formatMoney = function (c, d, t) {
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
 ;
+
+Number.prototype.formatMoney = formatMoney;
 
 var createFoundItem = function (name, price) {
     return '<li class="dd-item">' +
@@ -135,9 +145,13 @@ var checkPriceInput = function (e, u) {
         return true;
     }
     if (e.keyCode === 109 || e.keyCode === 189 || e.keyCode === 173) { // check for multiple dashes
-        if (p.val().length)
+        var l = p.val().length;
+        if (p.val().length > 0) {
             return false;
-        return p.val().indexOf("-") < 0;
+        }
+        return true;
+        /*var q = p.val();
+         return p.val().indexOf("-") < 0;*/
     }
     // prevent non-digit key press
     if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
@@ -161,17 +175,24 @@ var checkNumericInput = function (e, t) {
 
 var showInCurtain = function (s) {
     var curtain = $("<div></div>").attr("id", "curtain").click(function () {
-        $(this).fadeOut(animationTime, function () {
+        $(this).fadeOut(getAnimationTime(), function () {
             $(this).remove();
         });
     });
     curtain.append(s).hide();
     $("#app").append(curtain);
-    curtain.fadeIn(animationTime);
+    curtain.fadeIn(getAnimationTime());
 }
 ;
-var addItemToCheckout = function (itemId, name, price, group, tax, tags, desc) {
+var addItemToCheckout = function (id, ean, name, price, group, tax, tags, desc) {
     var jSaleList = $("#sale-list");
+    var lastItem = jSaleList.find(".sale-item.last");
+    if (id.toString() === lastItem.find(".si-id").text()) {
+        if ($("#registry-session").text() === "1") {
+            incrementLastItem(lastItem);
+            return true;
+        }
+    }
     var jSaleListPlaceHolder = jSaleList.find("#si-placeholder");
     if (jSaleListPlaceHolder.size()) {
         jSaleListPlaceHolder.addClass("hidden");
@@ -182,7 +203,8 @@ var addItemToCheckout = function (itemId, name, price, group, tax, tags, desc) {
     // creating sale item and bind events
     var item = $("<li>").addClass("sale-item last");
     var main = $("<div></div>").addClass("sale-item-main");
-    $("<div></div>").addClass("si-id").text(itemId).appendTo(main);
+    $("<div></div>").addClass("si-id").text(id).appendTo(main);
+    $("<div></div>").addClass("si-ean").text(ean).appendTo(main);
     $("<div></div>").addClass("si-name").text(name).appendTo(main);
     $("<input />")
             .addClass("si-quantity")
@@ -206,7 +228,7 @@ var addItemToCheckout = function (itemId, name, price, group, tax, tags, desc) {
     $("<button></button")
             .addClass("si-remove")
             .click(function () {
-                $(this).parent().parent().slideUp(animationTime, function () {
+                $(this).parent().parent().slideUp(getAnimationTime(), function () {
                     $(this).remove();
                     recalculateTotalCost();
                 });
@@ -214,7 +236,7 @@ var addItemToCheckout = function (itemId, name, price, group, tax, tags, desc) {
             .appendTo(main);
     main.children(".si-name, .si-price, .si-total").click(function () {
         $(this).parent().parent().find(".sale-item-extend")
-                .slideToggle(animationTime, function () {
+                .slideToggle(getAnimationTime(), function () {
                     var t = $(this);
                     if (t.is(":hidden")) {
                         t.parent().removeClass("expanded");
@@ -319,8 +341,15 @@ var addItemToCheckout = function (itemId, name, price, group, tax, tags, desc) {
 
     jSaleList.animate({
         scrollTop: jSaleList[0].scrollHeight
-    }, animationTime);
+    }, getAnimationTime());
 
+    recalculateTotalCost();
+    beep();
+}
+;
+var incrementLastItem = function (lastItem) {
+    var lastQuantity = lastItem.find(".si-quantity");
+    lastQuantity.val(parseInt(lastQuantity.val()) + 1);
     recalculateTotalCost();
     beep();
 }
