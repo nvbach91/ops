@@ -4,6 +4,7 @@
  */
 
 
+ 
 var getAnimationTime = function () {
     return window.innerWidth > 799 ? 100 : 0;
 }
