@@ -132,9 +132,9 @@ var recalculateTotalCost = function () {
 }
 ;
 
-var checkPriceInput = function (e, u) {
+var checkPriceInput = function (e, u, p) {
     u.text("keyCode: " + e.keyCode);
-    var p = $("#price-input");
+    //var p = $("#price-input");
     if (e.keyCode === 13) { // allow enter 
         if (p.val().length) {
             p.blur();
@@ -145,13 +145,24 @@ var checkPriceInput = function (e, u) {
         return true;
     }
     if (e.keyCode === 109 || e.keyCode === 189 || e.keyCode === 173) { // check for multiple dashes
-        var l = p.val().length;
         if (p.val().length > 0) {
             return false;
         }
         return true;
         /*var q = p.val();
          return p.val().indexOf("-") < 0;*/
+    }
+    // allow asterisk for scanner multiplication
+    // do not allow more than 99*
+    if (e.keyCode === 106) {
+        if (p.val().length === 0 || p.val().length > 2) {
+            return false;
+        }
+        if (p.val().indexOf("*") < 0) {
+            //p.attr("maxlength", 9);
+            return true;
+        }
+        return false;
     }
     // prevent non-digit key press
     if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
@@ -184,7 +195,17 @@ var showInCurtain = function (s) {
     curtain.fadeIn(getAnimationTime());
 }
 ;
-var addItemToCheckout = function (id, ean, name, price, group, tax, tags, desc) {
+
+var getMultiplicationNumber = function (jpi) {
+    var m = jpi.val();
+    if (!m.match(/^\-?[1-9](\d+)?\*(\d+)?$/g)) {
+        return 1;
+    }
+    return parseInt(m.slice(0, m.indexOf("*")));
+}
+;
+
+var addItemToCheckout = function (id, ean, name, price, group, tax, tags, desc, mult) {
     var jSaleList = $("#sale-list");
     var lastItem = jSaleList.find(".sale-item.last");
     if (id.toString() === lastItem.find(".si-id").text()) {
@@ -209,7 +230,7 @@ var addItemToCheckout = function (id, ean, name, price, group, tax, tags, desc) 
     $("<input />")
             .addClass("si-quantity")
             .attr({maxlength: 3})
-            .val(1)
+            .val(mult ? mult : 1)
             .keydown(function (e) {
                 checkNumericInput(e, this);
             })

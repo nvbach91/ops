@@ -1,3 +1,4 @@
+
 /* 
  *   Created on : Jan 28, 2016, 12:24:53 PM
  *   Author     : Nguyen Viet Bach
@@ -20,34 +21,34 @@ $(document).ready(function () {
     var jPriceInput = $("#price-input");
     var jRegistrySession = $("#registry-session");
     jPriceInput.keydown(function (e) {
-        return checkPriceInput(e, kc);
-    })
-            .blur(function () {
-                var p = $(this).val();
-                if (!/^\-?\d+$/g.test(p) || p === "-") {
-                    $(this).val("");
-                    return false;
-                }
-                var sign = "";
-                if (p.charAt(0) === "-") {
-                    p = p.slice(1);
-                    sign = "-";
-                }
-                var correctValue = correctPrice(p);
-                if (!correctValue) {
-                    jPriceInput.val("");
-                    return false;
-                }
-                jPriceInput.val(sign + correctValue);
-            })
-            .click(function () {
-                jPriceInput.val("");
-                jRegistrySession.text("0");
-            })
-            .focus(function () {
-                jPriceInput.val("");
-                jRegistrySession.text("0");
-            });
+        return checkPriceInput(e, kc, jPriceInput);
+    }).blur(function () {
+        var p = $(this).val();
+        if (!/^\-?\d+\*?(\d+)?$/g.test(p) || p === "-") {
+            $(this).val("");
+            return false;
+        }
+        if (p.indexOf("*") >= 0) {
+            return true;
+        }
+        var sign = "";
+        if (p.charAt(0) === "-") {
+            p = p.slice(1);
+            sign = "-";
+        }
+        var correctValue = correctPrice(p);
+        if (!correctValue) {
+            jPriceInput.val("");
+            return false;
+        }
+        jPriceInput.val(sign + correctValue);
+    }).click(function () {
+        jPriceInput.val("");
+        jRegistrySession.text("0");
+    }).focus(function () {
+        jPriceInput.val("");
+        jRegistrySession.text("0");
+    });
 
     // Clicking on sale-group buttons adds an item to the sale list
     $("#sale-groups button").click(function () {
@@ -56,52 +57,31 @@ $(document).ready(function () {
         // do not register an item of different group while price input is the same
         // user must type the same price for another sale group
         // reset the price input and play error sound
-        /*if (lastItem.find(".si-name").text().length) {
-         var te = t.text();
-         var j = lastItem.find(".si-name").text();
-         var r = jRegistrySession.text();
-         
-         if (t.text() !== lastItem.find(".si-name").text()
-         && jRegistrySession.text() === "1") {
-         jPriceInput.val("");
-         return false;
-         }
-         }
-         var price = jPriceInput.val();
-         var priceFloat = parseFloat(price);
-         if (priceFloat !== 0 && !isNaN(priceFloat)) {
-         if (t.text() === lastItem.find(".si-name").text()
-         && price === lastItem.find(".si-price").text()
-         && jRegistrySession.text() === "1") {
-         incrementLastItem(lastItem);
-         } else {
-         var id = t.text();
-         var name = t.text();
-         var group = t.text();
-         var tax = t.text();
-         var tags = t.text();
-         var desc = t.text();
-         addItemToCheckout(id, "", name, price, group, tax, tags, desc);
-         }
-         }*/
-
         var lastItem = jSaleList.find(".sale-item.last");
         if (lastItem.size() && t.text() !== lastItem.find(".si-id").text()
                 && jRegistrySession.text() === "1") {
             jPriceInput.val("");
             return false;
         }
-        var price = jPriceInput.val();
-        if (price.length === 0) {
+        var v = jPriceInput.val();
+        var a = v.indexOf("*");
+        var price = a >= 0 ? v.slice(a + 1, v.length) : v;
+        if (price.length === 0 || parseInt(price) === 0) {
+            jPriceInput.val("");
             return false;
         }
+        var mult = getMultiplicationNumber(jPriceInput);
+        
+        price = correctPrice(price);
+        jPriceInput.val(price);
+        
         var id = t.text();
         var name = t.text();
         var group = t.text();
         var tax = t.text();
         var tags = t.text();
         var desc = t.text();
-        addItemToCheckout(id, "", name, price, group, tax, tags, desc);
+        addItemToCheckout(id, "", name, price, group, tax, tags, desc, mult);
         jRegistrySession.text("1");
     });
 
@@ -109,6 +89,7 @@ $(document).ready(function () {
     $("#quick-sales .qs-item button").click(function () {
         var t = $(this);
         var price = t.parent().find(".qs-price").text();
+        var mult = getMultiplicationNumber(jPriceInput);
         jPriceInput.val(price);
         var name = t.text();
         var id = t.parent().find(".qs-id").text();
@@ -116,7 +97,8 @@ $(document).ready(function () {
         var group = t.parent().find(".qs-group").text();
         var tags = t.parent().find(".qs-tags").text();
         var desc = t.parent().find(".qs-desc").text();
-        addItemToCheckout(id, "", name, price, group, tax, tags, desc);
+        
+        addItemToCheckout(id, "", name, price, group, tax, tags, desc, mult);
 
         jRegistrySession.text("1");
     });
@@ -189,7 +171,7 @@ $(document).ready(function () {
                     t.removeClass("invalid");
                     t.parent().find("button.cash-confirm").removeClass("disabled");
                     t.val(correctValue);
-                    $("#cash-change").text(parseFloat(t.val()) - parseFloat(total) + " Kč")
+                    $("#cash-change").text(parseFloat(t.val()) - parseFloat(total) + " Kč");
                 })
                 .focus(function () {
                     $(this).select();
@@ -215,7 +197,7 @@ $(document).ready(function () {
                         var cash = t.text();
                         $("#cash-input").val(cash + "00").blur();
                         t.parents("#payment").find("button.cash-confirm").removeClass("disabled");
-                        $("#cash-change").text(cash - parseFloat(total) + " Kč")
+                        $("#cash-change").text(cash - parseFloat(total) + " Kč");
                     })
                     .appendTo(quickCash);
         }
@@ -247,30 +229,34 @@ $(document).ready(function () {
     });
     //g = catalog.items;
     //var dropDown = $("#dropdown");
-    $("#search").keyup(function (e) {
+    var jSearchBox = $("#search");
+    jSearchBox.keyup(function (e) {
         var t = $(this);
         if (e.keyCode === 13) {
             var filter = t.val();
             var i = catalog.items.binaryIndexOf(filter);
             if (i >= 0) {
                 var item = catalog.items[i];
+                var mult = getMultiplicationNumber(jPriceInput);
                 addItemToCheckout(
-                        item.id,
-                        item.ean,
-                        item.name,
-                        item.price,
-                        item.group,
-                        item.tax,
-                        item.tags,
-                        item.desc
-                        );
+                    item.id,
+                    item.ean,
+                    item.name,
+                    item.price,
+                    item.group,
+                    item.tax,
+                    item.tags,
+                    item.desc,
+                    // multiplication number
+                    mult
+                );         
+                jRegistrySession.text("0");
+                jPriceInput.val("");
                 t.removeClass("not-found");
-                jRegistrySession.text("1");
             } else {
                 t.addClass("not-found");
             }
             t.val("");
-
         }
     }).click(function () {
         $(this).removeClass("not-found");
@@ -278,6 +264,13 @@ $(document).ready(function () {
         $(this).removeClass("not-found");
     });
 
+    $(document).scannerDetection(function (s) {
+        jPriceInput.blur();
+        jSearchBox.val(s);
+        var e = $.Event('keyup');
+        e.keyCode = 13;
+        jSearchBox.trigger(e);
+    });
     /*
      dropDown.html(createFoundItem(item.name, item.price));
      dropDown.addClass("visible");

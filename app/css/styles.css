@@ -137,6 +137,11 @@ input {
 }
 #live-search {
     position: relative;
+    margin: 0 0 5px 0;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    display: none;
 }
 #search {
     font-size: 16px;
@@ -181,8 +186,6 @@ input {
     width: 100%;
     font-size: 50px;
     padding: 5px 10px;
-}
-#live-search, #price-input {
     margin: 0 0 5px 0;
     flex-grow: 0;
     display: flex;
@@ -832,9 +835,6 @@ div.ri-x {
     #sale-list input.si-quantity {
         width: 35px;
     }
-    #price-input {
-        font-size: 70px;
-    }
     #sale-groups, #quick-sales {
         overflow: hidden;
         display: flex;
@@ -881,6 +881,9 @@ div.ri-x {
     }
     .sg, .qs-item button {
         font-size: 14px;
+    }    
+    #price-input {
+        font-size: 60px;
     }
     #checkout-header {
         font-size: 14px;
@@ -906,6 +909,9 @@ div.ri-x {
 @media screen and (min-width: 840px){
     .cash-button {
         font-size: 20px;
+    }
+    #price-input {
+        font-size: 70px;
     }
     #checkout-header {
         font-size: 15px;
@@ -1046,7 +1052,7 @@ div.ri-x {
         white-space: nowrap;
     }
     .receipt-container {
-        max-width: 200px;
+        max-width: 270px;
         margin: 0;
         min-width: 0;
         padding: 0 0 0 5px;
@@ -1060,14 +1066,14 @@ div.ri-x {
     }
     div.ri-n {
         flex-grow: 1;
-        width: auto;
+        width: 20px;
     }
     div.ri-q {
         flex-grow: 0;
-        width: 27px;
+        width: 25px;
     }
     div.ri-tt {
-        width: 68px;
+        width: 60px;
         padding-right: 0px;
         flex-grow: 0;
     }
@@ -1080,7 +1086,7 @@ div.ri-x {
         font-size: 12px;
         background-image: url("../img/logo-black.png");
         background-size: contain;
-        background-position: 30px;
+        background-position: 60px;
         background-repeat: no-repeat;
     }
     .receipt:after {

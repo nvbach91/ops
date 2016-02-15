@@ -8,9 +8,10 @@ var gulp = require('gulp'),
 
 gulp.task('scripts', function(){
 	gulp.src([
-		'app/js/components/functions.js',
-		'app/js/components/Item.js', 
-		'app/js/components/main.js', 
+            'app/js/components/scanner.js',
+            'app/js/components/functions.js',
+            'app/js/components/Item.js', 
+            'app/js/components/main.js'
 	]).pipe(plumber())
 	.pipe(concat('build.js'))
 	//.pipe(rename({suffix:'.min'}))
